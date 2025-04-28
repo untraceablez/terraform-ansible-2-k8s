@@ -1,83 +1,20 @@
 ---
-# Instead of login with password, proxmox supports api token authentication since release 6.2.
-plugin: community.general.proxmox
-user: terraform-prov@pve
-token_id: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-66353932393431663031306234623366623766626135633765333762353231363932363665323539
-3736306366343436316562333233386561333966343639360a306363623334303338653465353939
-65316663663932323936343363383934366532303962396266633266366634333666643763633962
-6561663262353439300a333736396431633930346563643062313964613664653264656366386436
-3064
-token_secret: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-66353932393431663031306234623366623766626135633765333762353231363932363665323539
-3736306366343436316562333233386561333966343639360a306363623334303338653465353939
-65316663663932323936343363383934366532303962396266633266366634333666643763633962
-6561663262353439300a333736396431633930346563643062313964613664653264656366386436
-3064
+[all]
+k8s-ctrl
+k8s-wrkr
+k8s-stor
 
----
-# More complete example demonstrating the use of 'want_facts' and the constructed options
-# Note that using facts returned by 'want_facts' in constructed options requires 'want_facts=true'
-# my.proxmox.yml
-plugin: community.general.proxmox
-url: http://pve.taylorcohron.me:8006
-user: terraform-prov@pve
-token_id: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-66353932393431663031306234623366623766626135633765333762353231363932363665323539
-3736306366343436316562333233386561333966343639360a306363623334303338653465353939
-65316663663932323936343363383934366532303962396266633266366634333666643763633962
-6561663262353439300a333736396431633930346563643062313964613664653264656366386436
-3064
-token_secret: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-66353932393431663031306234623366623766626135633765333762353231363932363665323539
-3736306366343436316562333233386561333966343639360a306363623334303338653465353939
-65316663663932323936343363383934366532303962396266633266366634333666643763633962
-6561663262353439300a333736396431633930346563643062313964613664653264656366386436
-3064
-want_facts: true
-keyed_groups:
-    # proxmox_tags_parsed is an example of a fact only returned when 'want_facts=true'
-  - key: proxmox_tags_parsed
-    separator: ""
-    prefix: group
-groups:
-  webservers: "'web' in (proxmox_tags_parsed|list)"
-  mailservers: "'mail' in (proxmox_tags_parsed|list)"
-compose:
-  ansible_port: 22
-# Note that this can easily give you wrong values as ansible_host. See further below for
-# an example where this is set to `false` and where ansible_host is set with `compose`.
-want_proxmox_nodes_ansible_host: true
+[k8s-ctrl]
+k8s-test-01
+k8s-test-02
+k8s-test-03
 
----
-# Using the inventory to allow ansible to connect via the first IP address of the VM / Container
-# (Default is connection by name of QEMU/LXC guests)
-# Note: my_inv_var demonstrates how to add a string variable to every host used by the inventory.
-# my.proxmox.yml
-plugin: community.general.proxmox
-url: http://192.168.1.2:8006
-user: ansible@pve
-password: secure
-validate_certs: false  # only do this when you trust the network!
-want_facts: true
-want_proxmox_nodes_ansible_host: false
-compose:
-  ansible_host: proxmox_ipconfig0.ip | default(proxmox_net0.ip) | ipaddr('address')
-  my_inv_var_1: "'my_var1_value'"
-  my_inv_var_2: >
-    "my_var_2_value"
+[k8s-wrkr]
+k8s-test-04
+k8s-test-05
+k8s-test-06
 
----
-# Specify the url, user and password using templating
-# my.proxmox.yml
-plugin: community.general.proxmox
-url: "{{ lookup('ansible.builtin.ini', 'url', section='proxmox', file='file.ini') }}"
-user: "{{ lookup('ansible.builtin.env','PM_USER') | default('ansible@pve') }}"
-password: "{{ lookup('community.general.random_string', base64=True) }}"
-# Note that this can easily give you wrong values as ansible_host. See further up for
-# an example where this is set to `false` and where ansible_host is set with `compose`.
-want_proxmox_nodes_ansible_host: true
+[k8s-stor]
+k8s-test-07
+k8s-test-08
+k8s-test-09
