@@ -1,2 +1,17 @@
-# terraform-ansible-2-k8s
-Using Ansible + Terraform to fully deploy a k8s cluster on Proxmox
+# `terraform-ansible-2-k8s`
+
+## What *is* this project?
+
+The goal of this project is to provide a start to finish deployment experience of Kubernetes (particularly k8s) on Proxmox via Terraform and Ansible. While there are other projects that aim to do the same thing, often times the Terraform and Ansible parts are split apart. This aims to use Ansible to not only provision Kubernetes onto the VMs, but to push the Terraform configs onto our Proxmox cluster. 
+
+## Requirements
+
+Before you go cloning this repo and hoping it's a 1-click solution, you should check that your lab meets the following requirements: 
+
+| Requirement  | Default  | Reasoning   |
+|---|---|---|
+| Proxmox Version  | 8+  | I have no way to test previous revisions of Proxmox.  |
+| Kubernetes Version  | v.133.0  | Latest stable release as of writing  |
+| # of Proxmox Nodes  | 3  | High-availability kubernetes should be distributed across physical nodes. You can run this on one node, but you won't have any true HA, just simulated within your cluster. |
+| Linux Machine w/ Ansible & Terraform (or OpenTofu) installed.  | See Requirement  | You'll need an independent machine **not** running on the cluster to run your Ansible commands.  |
+

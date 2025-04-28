@@ -1,0 +1,7 @@
+---
+ungrouped:
+  hosts:
+    pve-test-01.acme.com
+    pve-test-02.acme.com
+    pve-test-03.acme.com
+    
