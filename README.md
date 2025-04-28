@@ -13,5 +13,6 @@ Before you go cloning this repo and hoping it's a 1-click solution, you should c
 | Proxmox Version  | 8+  | I have no way to test previous revisions of Proxmox.  |
 | Kubernetes Version  | v.133.0  | Latest stable release as of writing  |
 | # of Proxmox Nodes  | 3  | High-availability kubernetes should be distributed across physical nodes. You can run this on one node, but you won't have any true HA, just simulated within your cluster. |
-| Linux Machine w/ Ansible & Terraform (or OpenTofu) installed.  | See Requirement  | You'll need an independent machine **not** running on the cluster to run your Ansible commands.  |
+| Development Machine  | Debian-based Machine w/ Ansible & Terraform (or OpenTofu) installed. | You'll need an independent machine **not** running on the cluster to run your Ansible commands.  |
+| Networking | Ability to create and manage VLANs on network. | You'll want a cluster subnet dedicated to k8s, as well as a regular LAN address likely. |
 
