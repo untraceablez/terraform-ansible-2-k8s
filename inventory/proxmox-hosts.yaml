@@ -1,7 +1,10 @@
 ---
 ungrouped:
   hosts:
-    pve-test-01.acme.com
-    pve-test-02.acme.com
-    pve-test-03.acme.com
+    pve-test-01.taylorcohron.me
+      ansible_host: 10.0.0.192
+    pve-test-02.taylorcohron.me
+      ansible_host: 10.0.0.193
+    pve-test-03.taylorcohron.me
+      ansible_host: 10.0.0.194
     
