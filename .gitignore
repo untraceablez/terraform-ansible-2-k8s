@@ -1,3 +1,4 @@
 .env/*
 vault.yml
 .vscode/*
+ansible.cfg
